@@ -1,0 +1,415 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Techathon Presentation</title>
+
+		<link rel="stylesheet" href="css/reset.css">
+		<link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/ascend.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/monokai.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section data-background-image="media/tellodrone-gray.jpg">
+          <h1>Techathon</h1>
+          <p>Welcome!</p>
+
+          <aside class="notes">
+            Introduce Ascend, techathon people
+          </aside>
+        </section>
+
+        <section>
+          <section>
+            <h2>Challenges</h2>
+          </section>
+          <section 
+            class="has-bright-background" 
+            data-background-image="https://www.equinor.com/content/dam/statoil/image/how-and-why/climate/Dudegeon-wind-turbines-2-1v2.jpg.transform/extra-large/image.jpg"
+          >
+            <h3>Offshore wind</h3>
+            <ul>
+              <li>Huge untapped energy source</li>
+              <li>Big technical challenges</li>
+            </ul>
+            <aside class="notes">
+              <p>offshore deep water wind</p>
+              <p>big energy potential</p>
+              <p>remote facilities</p>
+              <p>large facilities</p>
+            </aside>
+          </section>
+          <section 
+            class="has-bright-background" 
+            data-background-image="https://www.equinor.com/content/dam/statoil/image/charts-and-infographics/new-energy-solutions/hywind-topic/hywind-worldmap.svg"
+          >
+          </section>
+          <section 
+            class="has-bright-background" 
+            data-background-image="media/hywinddemo.JPG">
+            <h4>Hywind Demo (Norway)</h4>
+          </section>
+          <section 
+            class="has-bright-background" 
+            data-background-image="media/sheringhamshoal.jpg">
+            <h4>Sheringham Shoal (UK)</h4>
+          </section>
+          <section 
+            class="has-bright-background" 
+            data-background-image="media/arkona.jpg">
+            <h4>Arkona (Germany)</h4>
+          </section>
+
+          <section>
+            <h4>One real drone task</h4>
+            <h4>Two simulator tasks</h4>
+          </section>
+          <section
+            data-background-image="media/tello.jpeg"
+            data-background-opacity="0.1"
+          >
+            <h4>Programming Ryze Tello</h4>
+            <p><ol><li>
+              Program a Ryze Tello to manouver around a windmill, and take photos of it from four different directions.
+            </li></ol></p>
+            <aside class="notes">
+              <p>say some words about the tello</p>
+              <p>will be given a time to accomplish this</p>
+            </aside>
+          </section>
+          <section>
+            <h4>Autonomous remote inspection drone</h4>
+            <p>A drone simulator and an offshore windmill facility is provided.</p>
+            <p>
+              <ol start="2">
+                <li class="fragment">Visit the windmills and report back whether the windmill has signs of corrosion.</li>
+                <li class="fragment">Visit the windmills and rank them according to severity of corrosion damage.</li>
+              </ol>
+            </p>
+          </section>
+          <section>
+            <p>
+              On Sunday after the competition is over, everyone will give 
+              a short presentation (~10 min) about how they approached the problem.
+            </p>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Setup</h2>
+          </section>
+          <section>
+            <h4>Simulator</h4>
+            <ul>
+              <li>Based on tools that we use in Ascend to make drones</li>
+              <li>Gazebo for physics simulation</li>
+              <li>Flight controller for low level control</li>
+              <li>Robotics Operating System (ROS) for communication and core functionality</li>
+              <li>Details have been abstracted away so you can focus on the task</li>
+            </ul>
+          </section>
+          <section>
+            <h4>Cloud based</h4>
+            <ul>
+              <li>Setup is cloud based, and the simulator can be viewed in the browser</li>
+              <li>Minimal installation and requirements for your computers, and also support for all platforms!</li>
+            </ul>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h3>Drone API</h3>
+          </section>
+          <section>
+            <p>The drone library gives a simple interface to control both the Ryze Tello and the simulated drone.</p>
+            <div style="display: flex">
+              <div style="float:left; width:70%">
+                <pre><code class="python" data-trim data-noescape>
+from dronelib import SimDrone
+
+drone = SimDrone()
+
+drone.activate()
+
+drone.takeoff()
+                </code></pre>
+              </div>
+              <div style="float:right">
+                <video loop autoplay data-src="media/takeoff.webm" type="video/webm"/>
+              </div>
+            </div>
+          </section>
+          <section>
+            <p>Setting a position target</p>
+            <div style="display: flex">
+              <div style="float:left; width:70%">
+                <pre><code class="python" data-trim data-noescape>
+# set (x y) target
+drone.set_target(0, 20)
+
+# set (x y z) target
+drone.set_target(0, 20, 30)
+
+# set (x y z yaw) target
+drone.set_target(0, 20, 30, 1.57)
+                </code></pre>
+              </div>
+              <div style="float:right; width:50%">
+                <video loop autoplay data-src="media/move.webm" type="video/webm"/>
+              </div>
+            </div>
+          </section>
+          <section>
+            <p>Getting data from drone</p>
+            <pre><code class="python" data-trim data-noescape>
+# get position and velocity
+pos = drone.position
+vel = drone.velocity
+
+# get camera image and info
+drone.camera.image
+drone.camera.info
+            </code></pre>
+
+          </section>
+          <section>
+            <p>Finishing the attempt</p>
+            <div style="display: flex">
+              <div style="float:left; width:80%">
+                <pre><code class="python" data-trim data-noescape>
+# land at current position
+drone.land()
+
+# disarm the drone and stop the attempt
+drone.deactivate()
+                </code></pre>
+              </div>
+              <div style="float:right">
+                <video loop autoplay data-src="media/land.webm" type="video/webm"/>
+              </div>
+            </div>
+          </section>
+          <section>
+            <p>There are more features inside dronelib.py</p>
+            <p>Template code is given in main.py</p>
+            <p>Check out the example folder</p>
+          </section>
+          <section>
+            <h3>Rust examples</h3>
+          </section>
+          <section data-background-image="media/example1.jpg"></section>
+          <section data-background-image="media/example3.jpg"></section>
+          <section data-background-image="media/example2.jpg"></section>
+          <section>
+            <p>Small dataset available at <a href="techathon.ascendntnu.no/dataset">techathon.ascendntnu.no/dataset</a>
+          </section>
+        </section>
+
+        <section>
+          <h2>Rules</h2>
+          <ul>
+            <li class="fragment">The simulator shall not be modified.</li>
+            <li class="fragment">For a score to count, it must be reproducible by the organizers.</li>
+            <li class="fragment">Follow the spirit of the competition! If you are unsure about whether doing something is against the rules, ask us.</li>
+          </ul>
+        </section>
+
+        <section 
+          data-background-image="media/mind-expanding.jpg"
+          data-background-opacity="0.03"
+        >
+          <h2>Demo</h2>
+        </section>
+
+        <section>
+          <section 
+            data-background="media/techathon-github.png"
+            data-background-opacity="0.1"
+          >
+            <h2>What to do now?</h2>
+            <p>
+              <ol>
+                <li>Join the slack <a href="https://techathonquestions.slack.com">techathonquestions.slack.com</a></li>
+                <li>Invite link <a href="http://techathon.ascendntnu.no/slack">techathon.ascendntnu.no/slack</a></li>
+                <!--<li>Invite link <a href="https://shorturl.at/birDT">shorturl.at/birDT</a></li> -->
+                <li>One person from each team, come to us to get server login</li>
+                <li>Go to <a href="https://github.com/AscendNTNU/techathon">github.com/AscendNTNU/techathon</a></p>
+              </ol>
+              <footer>
+                <p>you don't have to clone the repo, it's just for reading documentation</p>
+              </footer>
+            </p>
+          </section>
+        </section>
+
+				<section data-background-image="media/tellodrone-gray.jpg">
+          <section>
+            <h1>Techathon</h1>
+            <p>Results</p>
+          </section>
+          <section>
+            <h3>Tello Task</h3>
+            <p>
+              <table>
+                <tr>
+                  <td>Team</td>
+                  <td>Approved</td>
+                </tr>
+                <tr>
+                  <td>BruteForceOne</td>
+                  <td class="fragment" data-fragment-index="1">✓</td>
+                </tr>
+                <tr>
+                  <td>ITGang-K</td>
+                  <td class="fragment" data-fragment-index="1">✓</td>
+                </tr>
+                <tr>
+                  <td>Helles angels</td>
+                  <td class="fragment" data-fragment-index="1">✓</td>
+                </tr>
+                <tr>
+                  <td>kårepårustsafari</td>
+                  <td class="fragment" data-fragment-index="1">✓</td>
+                </tr>
+              </table>
+            </p>
+          </section>
+          <section>
+            <h3>Rust inspection (single)</h3>
+            <p>
+              <table>
+                <tr>
+                  <td>Team</td>
+                  <td>Score (max 20)</td>
+                  <td>Time</td>
+                </tr>
+                <tr>
+                  <td>BruteForceOne</td>
+                  <td class="fragment" data-fragment-index="1">drone crash ☹</td>
+                  <td class="fragment" data-fragment-index="1"></td>
+                </tr>
+                <tr>
+                  <td>ITGang-K</td>
+                  <td class="fragment" data-fragment-index="2">12</td>
+                  <td class="fragment" data-fragment-index="2">292.6</td>
+                </tr>
+                <tr>
+                  <td>Helles angels</td>
+                  <td class="fragment" data-fragment-index="3">20</td>
+                  <td class="fragment" data-fragment-index="3">601</td>
+                </tr>
+                <tr>
+                  <td>kårepårustsafari</td>
+                  <td class="fragment" data-fragment-index="4">land in water ☹</td>
+                  <td class="fragment" data-fragment-index="4"></td>
+                </tr>
+              </table>
+            </p>
+          </section>
+          <section>
+            <h3>Rust inspection (total)</h3>
+            <p>
+              <table>
+                <tr>
+                  <td>Team</td>
+                  <td>Score (max 30)</td>
+                  <td>Time</td>
+                </tr>
+                <tr>
+                  <td>BruteForceOne</td>
+                  <td class="fragment" data-fragment-index="1">missed landing pad ☹</td>
+                  <td class="fragment" data-fragment-index="1"></td>
+                </tr>
+                <tr>
+                  <td>ITGang-K</td>
+                  <td class="fragment" data-fragment-index="2">30</td>
+                  <td class="fragment" data-fragment-index="2">438.4</td>
+                </tr>
+                <tr>
+                  <td>Helles angels</td>
+                  <td class="fragment" data-fragment-index="3">30</td>
+                  <td class="fragment" data-fragment-index="3">624.2</td>
+                </tr>
+                <tr>
+                  <td>kårepårustsafari</td>
+                  <td class="fragment" data-fragment-index="4">land in water ☹</td>
+                  <td class="fragment" data-fragment-index="4"></td>
+                </tr>
+              </table>
+            </p>
+          </section>
+          <section>
+            <h3>Combined winner</h3>
+            <p>Helles angels</p>
+            <!--
+              <table>
+                <tr>
+                  <td>Team</td>
+                  <td>Total score</td>
+                  <td>Total time</td>
+                </tr>
+                <tr>
+                  <td>BruteForceOne</td>
+                  <td class="fragment" data-fragment-index="1"></td>
+                  <td class="fragment" data-fragment-index="1"></td>
+                </tr>
+                <tr>
+                  <td>ITGang-K</td>
+                  <td class="fragment" data-fragment-index="2">42</td>
+                  <td class="fragment" data-fragment-index="2">731</td>
+                </tr>
+                <tr>
+                  <td>Helles angels</td>
+                  <td class="fragment" data-fragment-index="3">50</td>
+                  <td class="fragment" data-fragment-index="3">1222.2</td>
+                </tr>
+                <tr>
+                  <td>kårepårustsafari</td>
+                  <td class="fragment" data-fragment-index="4"></td>
+                  <td class="fragment" data-fragment-index="4"></td>
+                </tr>
+              </table>
+            -->
+            </p>
+          </section>
+        </section>
+			</div>
+		</div>
+    <img class="top-left-logo" src="media/ascend.png" alt="ascend-logo"/>
+
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true }
+				],
+        transition: "slide",
+        hash: true,
+			});
+		</script>
+	</body>
+</html>
